@@ -24,6 +24,7 @@ namespace Hex
     {
         internal List<HexMapItem<T>> _map;
         public int Rings { get; private set; }
+        public List<HexMapItem<T>> Map { get { return _map; } }
 
         /// <summary>
         /// Initialize a new hex map

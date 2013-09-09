@@ -1,0 +1,3 @@
+http://www.redblobgames.com/grids/hexagons/
+http://www-cs-students.stanford.edu/~amitp/game-programming/grids/
+http://www.codeproject.com/Articles/14948/Hexagonal-grid-for-games-and-other-projects-Part-1

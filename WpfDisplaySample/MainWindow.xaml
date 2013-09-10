@@ -1,15 +1,13 @@
 ﻿<Window x:Class="WpfDisplaySample.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="650" Width="800">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-    <Canvas Grid.Row="0" x:Name="CenterCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <Rectangle Width="5" Height="5" Canvas.Left="0" Canvas.Right="0" Stroke="Red"></Rectangle>
-    </Canvas>
-        <Button Grid.Row="1" x:Name="DrawAHexGrid" Click="DrawAHexGrid_Click" Content="Draw a Hex Grid"></Button>
+        <Canvas Grid.Row="0" x:Name="CenterCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button Grid.Row="1" x:Name="DrawAHexGrid" Click="DrawAHexGrid_Click" Content="Draw a Hex Grid"/>
     </Grid>
 </Window>

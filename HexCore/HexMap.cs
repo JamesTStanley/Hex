@@ -64,9 +64,14 @@ namespace Hex
             return _map.FirstOrDefault(i => i.X == x && i.Y == y && i.Z == z);
         }
 
+        /// <summary>
+        /// Returns all of the map items in a ring from the center
+        /// </summary>
+        /// <param name="ringNumber">0 returns the center item, 1 the 6 neighboard of the center item, etc.</param>
+        /// <returns></returns>
         public List<HexMapItem<T>> Ring(int ringNumber)
         {
-            return _map.Where(i => Math.Abs(i.X) + Math.Abs(i.Y) + Math.Abs(i.Z) == ringNumber * 2).ToList();
+            return _map.Where(i => i.Ring == ringNumber).ToList();
         }
     }
 }

@@ -6,38 +6,80 @@ using System.Threading.Tasks;
 
 namespace Hex
 {
-    /// <summary>
-    /// An item in a hex-shaped hex map. This will need some refactoring to
-    /// work with maps that either aren't hexagonal in shape, or have some
-    /// alternate coordinate system where the center hex isn't 0,0,0 (cube) 
-    /// or 0,0 (axial).
-    /// </summary>
-    public class HexMapItem<T>
+    public class HexMapItem<T> : HexMapItemBase<T>
     {
-        // Cube coordinates
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Z { get; private set; }
+        public HexOrientation Orientation { get; private set; }
+        public double Size { get; private set; }
+        public Tuple<double, double> CenterPoint { get; private set; }
+        public List<Tuple<double, double>> Vertices { get; private set; }
+        public List<Tuple<Tuple<double, double>, Tuple<double, double>>> Faces { get; private set; } 
 
-        // Derived axial coordinates
-        public int Q { get { return X; } }
-        public int R { get { return Z; } }
-
-        public int Ring { get; private set; }
-
-        public T Value { get; set; } 
-
-        public HexMapItem(int x, int y, int z)
+        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z) : base(x, y, z)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            Ring = (Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z))/2;
+            Orientation = orientation;
+            Size = size;
+            CalculateCetnerPoint();
+            CalculateVerticies();
+            DeriveFacesFromVerticies();
         }
 
-        public HexMapItem(int x, int y, int z, T value) : this(x, y, z)
+        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z, T value)
+            : this(orientation, size, x, y, z)
         {
             Value = value;
+        }
+
+        private void CalculateCetnerPoint()
+        {
+            double centerX;
+            double centerY;
+            if (Orientation == HexOrientation.FlatTopped)
+            {
+                centerX = Size * 3 / 2 * Q;
+                centerY = Size * Math.Sqrt(3) * (R + 0.5 * Q);
+            }
+            else
+            {
+                centerX = Size * Math.Sqrt(3) * (Q + 0.5 * R);
+                centerY = Size * 3 / 2 * R;
+            }
+
+            CenterPoint = new Tuple<double, double>(centerX,centerY);
+        }
+
+        private void CalculateVerticies()
+        {
+            var x = CenterPoint.Item1;
+            var y = CenterPoint.Item2;
+
+            Vertices = new List<Tuple<double, double>>(6);
+
+            for (int i = 0; i < 6; i++)
+            {
+                double angle;
+                if (Orientation == HexOrientation.FlatTopped)
+                    angle = 2 * Math.PI / 6 * i;
+                else
+                    angle = 2 * Math.PI / 6 * (i + 0.5);
+
+                var verticeX = x + Size * Math.Cos(angle);
+                var verticeY = y + Size * Math.Sin(angle);
+
+                Vertices.Add(new Tuple<double, double>(verticeX,verticeY));
+            }
+        }
+
+        private void DeriveFacesFromVerticies()
+        {
+            Faces = new List<Tuple<Tuple<double, double>, Tuple<double, double>>>
+                {
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[0], Vertices[1]),
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[1], Vertices[2]),
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[2], Vertices[3]),
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[3], Vertices[4]),
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[4], Vertices[5]),
+                    new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[5], Vertices[0])
+                };
         }
     }
 }

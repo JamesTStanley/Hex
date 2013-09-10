@@ -17,7 +17,7 @@ namespace WpfDisplaySample
             InitializeComponent();
         }
 
-        private void DrawAHexGrid_Click(object sender, RoutedEventArgs e)
+        private void DrawAFlatTopHexGrid_Click(object sender, RoutedEventArgs e)
         {
             var hexGrid = CreateHexMapWithRingColors();
 
@@ -80,7 +80,7 @@ namespace WpfDisplaySample
 
         private HexMap<SolidColorBrush> CreateHexMapWithRingColors()
         {
-            var hexGrid = new HexMap<SolidColorBrush>(MapShape.HexagonFlatTopped, 4);
+            var hexGrid = new HexMap<SolidColorBrush>(HexOrientation.FlatTopped, 4);
             
             // Set the value of each item to a solid color brush which varies per ring
             foreach (var hex in hexGrid.Ring(0))
@@ -107,6 +107,59 @@ namespace WpfDisplaySample
             return hexGrid;
         }
 
-        
+        private void DrawAPointyTopHexGrid_Click(object sender, RoutedEventArgs e)
+        {
+            var hexGrid = CreateHexMapWithRingColors();
+
+            foreach (var hex in hexGrid.Map)
+            {
+                const double size = 45;
+
+                const double strokeThickness = 1;
+
+                // change these 2
+                var centerX = size * Math.Sqrt(3) * (hex.Q + 0.5 * (hex.R));
+                var centerY = size * 3 / 2 * hex.R;
+
+                var hexPath = new Path
+                {
+                    Data = DrawHexagon2(centerX, centerY, size, strokeThickness),
+                    Fill = hex.Value,
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = strokeThickness
+                };
+                hexPath.SetValue(Canvas.LeftProperty, centerX - (hexPath.Width / 2));
+                hexPath.SetValue(Canvas.TopProperty, centerY - (hexPath.Height / 2));
+                CenterCanvas.Children.Add(hexPath);
+            }
+        }
+
+        private PathGeometry DrawHexagon2(double x, double y, double size, double strokeThickness)
+        {
+            var geometry = new PathGeometry();
+            var figure = new PathFigure();
+
+            for (int i = 0; i < 6; i++)
+            {
+                // change
+                var angle = 2 * Math.PI / 6 * (i + 0.5);
+                var verticeX = x + size * Math.Cos(angle);
+                var verticeY = y + size * Math.Sin(angle);
+                if (i == 0)
+                    figure.StartPoint = new Point(verticeX, verticeY);
+                else
+                {
+                    var segment = new LineSegment
+                    {
+                        Point = new Point(verticeX + 0.5 * strokeThickness, verticeY + 0.5 * strokeThickness)
+                    };
+                    figure.Segments.Add(segment);
+                }
+            }
+            figure.IsClosed = true;
+            geometry.Figures.Add(figure);
+
+            return geometry;
+        }
     }
 }

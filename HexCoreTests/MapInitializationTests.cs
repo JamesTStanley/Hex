@@ -10,7 +10,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor0Yields1Item()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 0);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 0);
 
             Assert.AreEqual(1, sut._map.Count);
         }
@@ -18,7 +18,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor1Yields7Items()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 1);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
 
             Assert.AreEqual(7, sut._map.Count);
         }
@@ -26,7 +26,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor2Yields19Items()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 2);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 2);
 
             Assert.AreEqual(19, sut._map.Count);
         }
@@ -34,7 +34,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor0YieldsCorrectCoordinates()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 0);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 0);
 
             // Center hex
             Assert.IsNotNull(sut.Item(0,0,0));
@@ -43,7 +43,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor1YieldsCorrectCoordinates()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 1);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
 
             // Center hex
             Assert.IsNotNull(sut.Item(0, 0, 0));
@@ -60,7 +60,7 @@ namespace HexCoreTests
         [TestMethod]
         public void CtorSizeFactor2YieldsCorrectCoordinates()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 2);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 2);
 
             // Center hex
             Assert.IsNotNull(sut.Item(0, 0, 0));

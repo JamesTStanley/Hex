@@ -15,7 +15,7 @@ namespace HexCoreTests
         public void GettingItemThatDoesNotExistReturnsNull()
         {
             // Create 1-ring map
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 1);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
 
             // Try to get an item from the 2nd ring
             Assert.IsNull(sut.Item(2, 0, -2));
@@ -24,7 +24,7 @@ namespace HexCoreTests
         [TestMethod]
         public void GetRing1ReturnsCorrectResults()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 1);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
             var result = sut.Ring(1);
 
             // First ring
@@ -40,7 +40,7 @@ namespace HexCoreTests
         [TestMethod]
         public void GetRing2ReturnsCorrectResults()
         {
-            var sut = new HexMap<object>(MapShape.HexagonFlatTopped, 2);
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 2);
             var result = sut.Ring(2);
 
             // Second ring
@@ -62,7 +62,7 @@ namespace HexCoreTests
         [TestMethod]
         public void SettingValuesWorks()
         {
-            var sut = new HexMap<string>(MapShape.HexagonFlatTopped, 2);
+            var sut = new HexMap<string>(HexOrientation.FlatTopped, 2);
             foreach (var item in sut.Ring(2))
             {
                 item.Value = "red";

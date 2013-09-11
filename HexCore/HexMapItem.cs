@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hex
 {
+    /// <summary>
+    /// This extends HexMapItemBase by adding properties that are necessary
+    /// for making hex maps displayable. The constructor requires an orientation
+    /// for the map and a size for the hex, from which the rest of the
+    /// properties can be calculated.
+    /// </summary>
     public class HexMapItem<T> : HexMapItemBase<T>
     {
-        public HexOrientation Orientation { get; private set; }
-        public double Size { get; private set; }
-        public Tuple<double, double> CenterPoint { get; private set; }
-        public List<Tuple<double, double>> Vertices { get; private set; }
-        public List<Tuple<Tuple<double, double>, Tuple<double, double>>> Faces { get; private set; } 
+        #region Constructors
 
-        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z) : base(x, y, z)
+        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z)
+            : base(x, y, z)
         {
             Orientation = orientation;
             Size = size;
@@ -29,6 +29,43 @@ namespace Hex
             Value = value;
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// The rendering orientation for the hex
+        /// </summary>
+        public HexOrientation Orientation { get; private set; }
+        
+        /// <summary>
+        /// The distance from the center point to a vertice
+        /// </summary>
+        public double Size { get; private set; }
+        
+        /// <summary>
+        /// The X,Y coordinates of the center point of the hex
+        /// </summary>
+        public Tuple<double, double> CenterPoint { get; private set; }
+        
+        /// <summary>
+        /// The list of X,Y coordinates of the six verticies of the hex
+        /// </summary>
+        public List<Tuple<double, double>> Vertices { get; private set; }
+
+        /// <summary>
+        /// The list of start and end X,Y coordinates of the size faces of the hex
+        /// </summary>
+        public List<Tuple<Tuple<double, double>, Tuple<double, double>>> Faces { get; private set; }
+
+        #endregion
+
+        #region Calulate/Derive Public Properties
+
+        /// <summary>
+        /// Calculate the center point of the hex based on the orientation
+        /// and size
+        /// </summary>
         private void CalculateCetnerPoint()
         {
             double centerX;
@@ -47,6 +84,10 @@ namespace Hex
             CenterPoint = new Tuple<double, double>(centerX,centerY);
         }
 
+        /// <summary>
+        /// Calculate the location of the six verticies of the hex
+        /// based on the center point, orientation and size.
+        /// </summary>
         private void CalculateVerticies()
         {
             var x = CenterPoint.Item1;
@@ -69,6 +110,11 @@ namespace Hex
             }
         }
 
+        /// <summary>
+        /// Derive the start/end coordinates of the six faces of the
+        /// hex by stringing together the pairs of vertices that are
+        /// the endpoints of each face.
+        /// </summary>
         private void DeriveFacesFromVerticies()
         {
             Faces = new List<Tuple<Tuple<double, double>, Tuple<double, double>>>
@@ -81,5 +127,7 @@ namespace Hex
                     new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[5], Vertices[0])
                 };
         }
+
+        #endregion
     }
 }

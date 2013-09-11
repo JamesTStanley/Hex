@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Hex;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,6 +53,34 @@ namespace HexCoreTests
             Assert.IsNotNull(result.First(i => i.X == 1 && i.Y == -2 && i.Z == 1));
             Assert.IsNotNull(result.First(i => i.X == 2 && i.Y == -2 && i.Z == 0));
             Assert.IsNotNull(result.First(i => i.X == 2 && i.Y == -1 && i.Z == -1));
+        }
+
+        [TestMethod]
+        public void GetItemByCubeCoordinatesReturnsCorrectResults()
+        {
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
+
+            // First ring
+            Assert.IsNotNull(sut.Item(1, 0, -1));
+            Assert.IsNotNull(sut.Item(1, -1, 0));
+            Assert.IsNotNull(sut.Item(0, -1, 1));
+            Assert.IsNotNull(sut.Item(-1, 0, 1));
+            Assert.IsNotNull(sut.Item(-1, 1, 0));
+            Assert.IsNotNull(sut.Item(0, 1, -1));
+        }
+
+        [TestMethod]
+        public void GetItemByAxialCoordinatesReturnsCorrectResults()
+        {
+            var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
+
+            // First ring
+            Assert.IsNotNull(sut.Item(1, -1));
+            Assert.IsNotNull(sut.Item(1, 0));
+            Assert.IsNotNull(sut.Item(0, 1));
+            Assert.IsNotNull(sut.Item(-1, 1));
+            Assert.IsNotNull(sut.Item(-1, 0));
+            Assert.IsNotNull(sut.Item(0, -1));
         }
 
         [TestMethod]

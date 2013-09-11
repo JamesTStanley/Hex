@@ -1,5 +1,4 @@
-﻿using System;
-using Hex;
+﻿using Hex;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HexCoreTests
@@ -12,7 +11,7 @@ namespace HexCoreTests
         {
             var sut = new HexMap<object>(HexOrientation.FlatTopped, 0);
 
-            Assert.AreEqual(1, sut._map.Count);
+            Assert.AreEqual(1, sut.Map.Count);
         }
 
         [TestMethod]
@@ -20,7 +19,7 @@ namespace HexCoreTests
         {
             var sut = new HexMap<object>(HexOrientation.FlatTopped, 1);
 
-            Assert.AreEqual(7, sut._map.Count);
+            Assert.AreEqual(7, sut.Map.Count);
         }
 
         [TestMethod]
@@ -28,7 +27,7 @@ namespace HexCoreTests
         {
             var sut = new HexMap<object>(HexOrientation.FlatTopped, 2);
 
-            Assert.AreEqual(19, sut._map.Count);
+            Assert.AreEqual(19, sut.Map.Count);
         }
 
         [TestMethod]

@@ -10,7 +10,7 @@ namespace WpfDisplaySample
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -19,147 +19,81 @@ namespace WpfDisplaySample
 
         private void DrawAFlatTopHexGrid_Click(object sender, RoutedEventArgs e)
         {
-            var hexGrid = CreateHexMapWithRingColors();
-
-            foreach (var hex in hexGrid.Map)
-            {
-                // The hex map itself isn't concerned with the size of a hex,
-                // so we need to invent one. This is the "radius" or more
-                // appropriately the distance from the center to a vertex point
-                const double size = 45;
-               
-                const double strokeThickness = 1;
-
-                // Calculate the X,Y location of a hex for a plane with 0,0
-                // in the center. Because the Canvas panel in XAML has no clipping
-                // region by default, we can place a Canvas in the lower-right quadrant
-                // of our drawing space and use its upper-left corner as 0,0 to
-                // achieve the desired coordinate system
-                var centerX = size * 3 / 2 * hex.Q;
-                var centerY = size * Math.Sqrt(3) * (hex.R + 0.5 * (hex.Q ));
-
-                var hexPath = new Path
-                    {
-                        Data = DrawHexagon(centerX, centerY, size, strokeThickness),
-                        Fill = hex.Value,
-                        Stroke = new SolidColorBrush(Colors.Black),
-                        StrokeThickness = strokeThickness
-                    };
-                hexPath.SetValue(Canvas.LeftProperty, centerX - (hexPath.Width / 2));
-                hexPath.SetValue(Canvas.TopProperty, centerY - (hexPath.Height / 2));
-                CenterCanvas.Children.Add(hexPath);
-            }
-        }
-
-        private PathGeometry DrawHexagon(double x, double y, double size, double strokeThickness)
-        {
-            var geometry = new PathGeometry();
-            var figure = new PathFigure();
-
-            for (int i = 0; i < 6; i++)
-            {
-                var angle = 2 * Math.PI / 6 * i;
-                var verticeX = x + size * Math.Cos(angle);
-                var verticeY = y + size * Math.Sin(angle);
-                if (i == 0)
-                    figure.StartPoint = new Point(verticeX, verticeY);
-                else
-                {
-                    var segment = new LineSegment
-                        {
-                            Point = new Point(verticeX + 0.5*strokeThickness, verticeY + 0.5*strokeThickness)
-                        };
-                    figure.Segments.Add(segment);
-                }
-            }
-            figure.IsClosed = true;
-            geometry.Figures.Add(figure);
-
-            return geometry;
-        }
-
-        private HexMap<SolidColorBrush> CreateHexMapWithRingColors()
-        {
-            var hexGrid = new HexMap<SolidColorBrush>(HexOrientation.FlatTopped, 4);
-            
-            // Set the value of each item to a solid color brush which varies per ring
-            foreach (var hex in hexGrid.Ring(0))
-            {
-                hex.Value = new SolidColorBrush(Colors.Red);
-            }
-            foreach (var hex in hexGrid.Ring(1))
-            {
-                hex.Value = new SolidColorBrush(Colors.Yellow);
-            }
-            foreach (var hex in hexGrid.Ring(2))
-            {
-                hex.Value = new SolidColorBrush(Colors.Blue);
-            }
-            foreach (var hex in hexGrid.Ring(3))
-            {
-                hex.Value = new SolidColorBrush(Colors.Orange);
-            }
-            foreach (var hex in hexGrid.Ring(4))
-            {
-                hex.Value = new SolidColorBrush(Colors.Green);
-            }
-
-            return hexGrid;
+            DrawHexGrid(CreateHexMapWithRingColors(HexOrientation.FlatTopped, 4));
         }
 
         private void DrawAPointyTopHexGrid_Click(object sender, RoutedEventArgs e)
         {
-            var hexGrid = CreateHexMapWithRingColors();
+            DrawHexGrid(CreateHexMapWithRingColors(HexOrientation.PointyTopped, 4));
+        }
+
+        /// <summary>
+        /// Draw the provided hex map on the form's canvas
+        /// </summary>
+        private void DrawHexGrid(HexMap<SolidColorBrush> hexGrid)
+        {
+            const double strokeThickness = 1;
 
             foreach (var hex in hexGrid.Map)
             {
-                const double size = 45;
-
-                const double strokeThickness = 1;
-
-                // change these 2
-                var centerX = size * Math.Sqrt(3) * (hex.Q + 0.5 * (hex.R));
-                var centerY = size * 3 / 2 * hex.R;
-
                 var hexPath = new Path
                 {
-                    Data = DrawHexagon2(centerX, centerY, size, strokeThickness),
+                    Data = DrawHexagon(hex),
                     Fill = hex.Value,
                     Stroke = new SolidColorBrush(Colors.Black),
                     StrokeThickness = strokeThickness
                 };
-                hexPath.SetValue(Canvas.LeftProperty, centerX - (hexPath.Width / 2));
-                hexPath.SetValue(Canvas.TopProperty, centerY - (hexPath.Height / 2));
+                hexPath.SetValue(Canvas.LeftProperty, hex.X - (hexPath.Width / 2));
+                hexPath.SetValue(Canvas.TopProperty, hex.Y - (hexPath.Height / 2));
                 CenterCanvas.Children.Add(hexPath);
             }
         }
 
-        private PathGeometry DrawHexagon2(double x, double y, double size, double strokeThickness)
+        /// <summary>
+        /// Use the coordinate data from a HexMapItem to produce a XAML PathGeometry
+        /// </summary>
+        private static PathGeometry DrawHexagon(HexMapItem<SolidColorBrush> hex)
         {
             var geometry = new PathGeometry();
-            var figure = new PathFigure();
-
-            for (int i = 0; i < 6; i++)
-            {
-                // change
-                var angle = 2 * Math.PI / 6 * (i + 0.5);
-                var verticeX = x + size * Math.Cos(angle);
-                var verticeY = y + size * Math.Sin(angle);
-                if (i == 0)
-                    figure.StartPoint = new Point(verticeX, verticeY);
-                else
-                {
-                    var segment = new LineSegment
-                    {
-                        Point = new Point(verticeX + 0.5 * strokeThickness, verticeY + 0.5 * strokeThickness)
-                    };
-                    figure.Segments.Add(segment);
-                }
-            }
+            var figure = new PathFigure {StartPoint = new Point(hex.Vertices[0].Item1, hex.Vertices[0].Item2)};
+            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[1].Item1, hex.Vertices[1].Item2), true));
+            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[2].Item1, hex.Vertices[2].Item2), true));
+            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[3].Item1, hex.Vertices[3].Item2), true));
+            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[4].Item1, hex.Vertices[4].Item2), true));
+            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[5].Item1, hex.Vertices[5].Item2), true));
             figure.IsClosed = true;
             geometry.Figures.Add(figure);
 
             return geometry;
         }
+
+        /// <summary>
+        /// Create a HexMap of type SolidColorBrush and set the value to a different colored
+        /// brush for each ring in the map
+        /// </summary>
+        /// <param name="orientation">Flat or pointy topped</param>
+        /// <param name="ringCount">Number of rings around the center hex</param>
+        private static HexMap<SolidColorBrush> CreateHexMapWithRingColors(HexOrientation orientation, int ringCount)
+        {
+            // Set up some colors for hex fills
+            var ringColors = new[] 
+            {
+                new SolidColorBrush(Colors.Red), 
+                new SolidColorBrush(Colors.Yellow),
+                new SolidColorBrush(Colors.Blue),
+                new SolidColorBrush(Colors.Orange),
+                new SolidColorBrush(Colors.Green)
+            };
+
+            var hexGrid = new HexMap<SolidColorBrush>(orientation, ringCount, 45);
+
+            // Set the value of each item to a solid color brush which varies per ring
+            for (int i = 0; i <= Math.Min(ringCount, ringColors.Length - 1); i++)
+                foreach (var hex in hexGrid.Ring(i))
+                    hex.Value = ringColors[i];
+
+            return hexGrid;
+        }
+
     }
 }

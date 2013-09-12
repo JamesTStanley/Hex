@@ -42,6 +42,20 @@ namespace WpfDisplaySample
             AnnotateVerticies(hexGrid);
         }
 
+        private void DrawAFlatTopHexGridWithFaceAnnot_Click(object sender, RoutedEventArgs e)
+        {
+            var hexGrid = CreateHexMapWithRingColors(HexOrientation.FlatTopped, 4);
+            DrawHexGrid(hexGrid);
+            AnnotateFaces(hexGrid);
+        }
+
+        private void DrawAPointyTopHexGridWithFaceAnnot_Click(object sender, RoutedEventArgs e)
+        {
+            var hexGrid = CreateHexMapWithRingColors(HexOrientation.PointyTopped, 4);
+            DrawHexGrid(hexGrid);
+            AnnotateFaces(hexGrid);
+        }
+
         /// <summary>
         /// Draw the provided hex map on the form's canvas
         /// </summary>
@@ -163,7 +177,46 @@ namespace WpfDisplaySample
             }
         }
 
-        
+        private void AnnotateFaces(HexMap<SolidColorBrush> hexGrid)
+        {
+            foreach (var hex in hexGrid.Map)
+            {
+                for (int i = 0; i <= 5; i++)
+                {
+                    var faceLine = hex.Faces(i);
+                    faceLine.StrokeThickness = 3;
+                    var direction = hex.FaceDirections[i];
 
+                    switch (direction)
+                    {
+                        case HexDirection.E:
+                            faceLine.Stroke = new SolidColorBrush(Colors.BlueViolet);
+                            break;
+                        case HexDirection.N:
+                            faceLine.Stroke = new SolidColorBrush(Colors.DarkBlue);
+                            break;
+                        case HexDirection.NE:
+                            faceLine.Stroke = new SolidColorBrush(Colors.Aqua);
+                            break;
+                        case HexDirection.NW:
+                            faceLine.Stroke = new SolidColorBrush(Colors.BurlyWood);
+                            break;
+                        case HexDirection.S:
+                            faceLine.Stroke = new SolidColorBrush(Colors.Chartreuse);
+                            break;
+                        case HexDirection.SE:
+                            faceLine.Stroke = new SolidColorBrush(Colors.MediumVioletRed);
+                            break;
+                        case HexDirection.SW:
+                            faceLine.Stroke = new SolidColorBrush(Colors.DeepPink);
+                            break;
+                        case HexDirection.W:
+                            faceLine.Stroke = new SolidColorBrush(Colors.Gray);
+                            break;
+                    }
+                    CenterCanvas.Children.Add(faceLine);
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Hex;
 
 namespace HexWpf
@@ -37,6 +38,18 @@ namespace HexWpf
         public static Point Verticies(this HexMapItem item, int index)
         {
             return new Point(item.Vertices[index].Item1, -1 * item.Vertices[index].Item2);
+        }
+
+        public static Line Faces(this HexMapItem item, int index)
+        {
+            var line = new Line
+                {
+                    X1 = item.Faces[index].Item1.Item1,
+                    Y1 = -1 * item.Faces[index].Item1.Item2,
+                    X2 = item.Faces[index].Item2.Item1,
+                    Y2 = -1 * item.Faces[index].Item2.Item2
+                };
+            return line;
         }
 
         public static PathGeometry PathGeometry(this HexMapItem item)

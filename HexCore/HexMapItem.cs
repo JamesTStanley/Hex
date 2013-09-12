@@ -22,6 +22,7 @@ namespace Hex
             CalculateVerticies();
             SetVerticieDirections();
             DeriveFacesFromVerticies();
+            SetFaceDirections();
         }
 
         #endregion
@@ -59,7 +60,11 @@ namespace Hex
         /// </summary>
         public List<Tuple<Tuple<double, double>, Tuple<double, double>>> Faces { get; private set; }
 
-        
+        /// <summary>
+        /// List of which cardinal direction the corresponding member of
+        /// Faces is from the center point
+        /// </summary>
+        public List<HexDirection> FaceDirections { get; private set; } 
 
         #endregion
 
@@ -114,7 +119,7 @@ namespace Hex
         }
 
         /// <summary>
-        /// Set the verticie directions based on the orientation (no need
+        /// Set the vertex directions based on the orientation (no need
         /// to calculate since the algorithm to calculate the verticies
         /// always goes in the same order for a given orientation)
         /// </summary>
@@ -162,6 +167,39 @@ namespace Hex
                     new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[4], Vertices[5]),
                     new Tuple<Tuple<double, double>, Tuple<double, double>>(Vertices[5], Vertices[0])
                 };
+        }
+
+        /// <summary>
+        /// Set the face directions based on the orientation (no need
+        /// to calculate since the algorithm to calculate the verticies
+        /// always goes in the same order for a given orientation)
+        /// </summary>
+        private void SetFaceDirections()
+        {
+            if (Orientation == HexOrientation.FlatTopped)
+            {
+                FaceDirections = new List<HexDirection>
+                    {
+                        HexDirection.NE,
+                        HexDirection.N,
+                        HexDirection.NW,
+                        HexDirection.SW,
+                        HexDirection.S,
+                        HexDirection.SE
+                    };
+            }
+            else
+            {
+                FaceDirections = new List<HexDirection>
+                    {
+                        HexDirection.NE,
+                        HexDirection.NW,
+                        HexDirection.W,
+                        HexDirection.SW,
+                        HexDirection.SE,
+                        HexDirection.E
+                    };
+            }
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace Hex
     /// for the map and a size for the hex, from which the rest of the
     /// properties can be calculated.
     /// </summary>
-    public class HexMapItem<T> : HexMapItemBase<T>
+    public class HexMapItem : HexMapItemBase
     {
         #region Constructors
 
@@ -20,13 +20,8 @@ namespace Hex
             Size = size;
             CalculateCetnerPoint();
             CalculateVerticies();
+            SetVerticieDirections();
             DeriveFacesFromVerticies();
-        }
-
-        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z, T value)
-            : this(orientation, size, x, y, z)
-        {
-            Value = value;
         }
 
         #endregion
@@ -39,7 +34,7 @@ namespace Hex
         public HexOrientation Orientation { get; private set; }
         
         /// <summary>
-        /// The distance from the center point to a vertice
+        /// The distance from the center point to a vertex
         /// </summary>
         public double Size { get; private set; }
         
@@ -54,9 +49,17 @@ namespace Hex
         public List<Tuple<double, double>> Vertices { get; private set; }
 
         /// <summary>
+        /// List of which cardinal direction the corresponding member of
+        /// Verticies is from the center point
+        /// </summary>
+        public List<HexDirection> VerticeDirections { get; private set; } 
+
+        /// <summary>
         /// The list of start and end X,Y coordinates of the size faces of the hex
         /// </summary>
         public List<Tuple<Tuple<double, double>, Tuple<double, double>>> Faces { get; private set; }
+
+        
 
         #endregion
 
@@ -103,10 +106,43 @@ namespace Hex
                 else
                     angle = 2 * Math.PI / 6 * (i + 0.5);
 
-                var verticeX = x + Size * Math.Cos(angle);
-                var verticeY = y + Size * Math.Sin(angle);
+                var vertexX = x + Size * Math.Cos(angle);
+                var vertexY = y + Size * Math.Sin(angle);
 
-                Vertices.Add(new Tuple<double, double>(verticeX,verticeY));
+                Vertices.Add(new Tuple<double, double>(vertexX, vertexY));
+            }
+        }
+
+        /// <summary>
+        /// Set the verticie directions based on the orientation (no need
+        /// to calculate since the algorithm to calculate the verticies
+        /// always goes in the same order for a given orientation)
+        /// </summary>
+        private void SetVerticieDirections()
+        {
+            if (Orientation == HexOrientation.FlatTopped)
+            {
+                VerticeDirections = new List<HexDirection>
+                    {
+                        HexDirection.E,
+                        HexDirection.NE,
+                        HexDirection.NW,
+                        HexDirection.W,
+                        HexDirection.SW,
+                        HexDirection.SE
+                    };
+            }
+            else
+            {
+                VerticeDirections = new List<HexDirection>
+                    {
+                        HexDirection.NE,
+                        HexDirection.N,
+                        HexDirection.NW,
+                        HexDirection.SW,
+                        HexDirection.S,
+                        HexDirection.SE
+                    };
             }
         }
 
@@ -129,5 +165,19 @@ namespace Hex
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// This extends HexMapItem with a generic Value property
+    /// </summary>
+    public class HexMapItem<T> : HexMapItem
+    {
+        public T Value { get; set; }
+
+        public HexMapItem(HexOrientation orientation, double size, int x, int y, int z)
+            : base(orientation, size, x, y, z)
+        {
+            
+        }
     }
 }

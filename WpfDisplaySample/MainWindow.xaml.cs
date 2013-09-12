@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Hex;
+using HexWpf;
 
 namespace WpfDisplaySample
 {
@@ -27,6 +28,20 @@ namespace WpfDisplaySample
             DrawHexGrid(CreateHexMapWithRingColors(HexOrientation.PointyTopped, 4));
         }
 
+        private void DrawAFlatTopHexGridWithVertAnnot_Click(object sender, RoutedEventArgs e)
+        {
+            var hexGrid = CreateHexMapWithRingColors(HexOrientation.FlatTopped, 4);
+            DrawHexGrid(hexGrid);
+            AnnotateVerticies(hexGrid);
+        }
+
+        private void DrawAPointyTopHexGridWithVertAnnot_Click(object sender, RoutedEventArgs e)
+        {
+            var hexGrid = CreateHexMapWithRingColors(HexOrientation.PointyTopped, 4);
+            DrawHexGrid(hexGrid);
+            AnnotateVerticies(hexGrid);
+        }
+
         /// <summary>
         /// Draw the provided hex map on the form's canvas
         /// </summary>
@@ -38,7 +53,7 @@ namespace WpfDisplaySample
             {
                 var hexPath = new Path
                 {
-                    Data = DrawHexagon(hex),
+                    Data = hex.PathGeometry(),
                     Fill = hex.Value,
                     Stroke = new SolidColorBrush(Colors.Black),
                     StrokeThickness = strokeThickness
@@ -47,24 +62,6 @@ namespace WpfDisplaySample
                 hexPath.SetValue(Canvas.TopProperty, hex.Y - (hexPath.Height / 2));
                 CenterCanvas.Children.Add(hexPath);
             }
-        }
-
-        /// <summary>
-        /// Use the coordinate data from a HexMapItem to produce a XAML PathGeometry
-        /// </summary>
-        private static PathGeometry DrawHexagon(HexMapItem<SolidColorBrush> hex)
-        {
-            var geometry = new PathGeometry();
-            var figure = new PathFigure {StartPoint = new Point(hex.Vertices[0].Item1, hex.Vertices[0].Item2)};
-            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[1].Item1, hex.Vertices[1].Item2), true));
-            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[2].Item1, hex.Vertices[2].Item2), true));
-            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[3].Item1, hex.Vertices[3].Item2), true));
-            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[4].Item1, hex.Vertices[4].Item2), true));
-            figure.Segments.Add(new LineSegment(new Point(hex.Vertices[5].Item1, hex.Vertices[5].Item2), true));
-            figure.IsClosed = true;
-            geometry.Figures.Add(figure);
-
-            return geometry;
         }
 
         /// <summary>
@@ -94,6 +91,79 @@ namespace WpfDisplaySample
 
             return hexGrid;
         }
+
+        /// <summary>
+        /// Draw textblock annotations near each verticie indicating its direction from center
+        /// </summary>
+        private void AnnotateVerticies(HexMap<SolidColorBrush> hexGrid)
+        {
+            foreach (var hex in hexGrid.Map)
+            {
+                for (int i = 0; i <= 5; i++ )
+                {
+                    var vertex = hex.Verticies(i);
+                    var direction = hex.VerticeDirections[i];
+
+                    var textBlock = new TextBlock {Text = direction.ToString()};
+
+                    // Force some calculations of how big the textblock wants
+                    // to be given the string that was placed in it
+                    textBlock.Measure(new Size(double.PositiveInfinity,double.PositiveInfinity));
+                    var width = textBlock.DesiredSize.Width;
+                    var height = textBlock.DesiredSize.Height;
+
+                    switch (direction)
+                    {
+                        case HexDirection.W:
+                            textBlock.SetValue(Canvas.LeftProperty, vertex.X + 5);
+                            break;
+                        case HexDirection.SW:
+                        case HexDirection.NW:
+                            if (hex.Orientation == HexOrientation.FlatTopped)
+                                textBlock.SetValue(Canvas.LeftProperty, vertex.X);
+                            else
+                                textBlock.SetValue(Canvas.LeftProperty, vertex.X + 5);
+                            break;
+                        case HexDirection.E:
+                            textBlock.SetValue(Canvas.LeftProperty, vertex.X - width - 5);
+                            break;
+                        case HexDirection.SE:
+                        case HexDirection.NE:
+                            if (hex.Orientation == HexOrientation.FlatTopped)
+                                textBlock.SetValue(Canvas.LeftProperty, vertex.X - width );
+                            else
+                                textBlock.SetValue(Canvas.LeftProperty, vertex.X - width - 5);
+                            break;
+                        case HexDirection.N:
+                        case HexDirection.S:
+                            textBlock.SetValue(Canvas.LeftProperty, vertex.X - width / 2);
+                            break;
+                    }
+
+                    switch (direction)
+                    {
+                        case HexDirection.SE:
+                        case HexDirection.SW:
+                        case HexDirection.S:
+                            textBlock.SetValue(Canvas.TopProperty, vertex.Y - height);
+                            break;
+                        case HexDirection.E:
+                        case HexDirection.W:
+                            textBlock.SetValue(Canvas.TopProperty, vertex.Y - height / 2);
+                            break;
+                        case HexDirection.NE:
+                        case HexDirection.NW:
+                        case HexDirection.N:                       
+                            textBlock.SetValue(Canvas.TopProperty, vertex.Y);
+                            break;
+                    }
+
+                    CenterCanvas.Children.Add(textBlock);
+                }
+            }
+        }
+
+        
 
     }
 }

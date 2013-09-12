@@ -18,7 +18,7 @@ namespace Hex
         /// </summary>
         /// <param name="orientation">Flat topped or pointy topped orientation</param>
         /// <param name="ringCount">The number of rings around the hex in the center</param>
-        /// <param name="hexSize">The size (distance from center to vertice) of a hex</param>
+        /// <param name="hexSize">The size (distance from center to vertex) of a hex</param>
         public HexMap(HexOrientation orientation, int ringCount, double hexSize = 1)
         {
             if (ringCount < 0)

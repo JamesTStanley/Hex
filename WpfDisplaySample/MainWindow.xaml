@@ -8,9 +8,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Canvas Grid.Row="0" x:Name="CenterCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+        <WrapPanel Orientation="Horizontal" Grid.Row="1">
             <Button x:Name="DrawAFlatTopHexGrid" Click="DrawAFlatTopHexGrid_Click" Content="Draw a Flat Top Hex Grid"/>
             <Button x:Name="DrawAPointyTopHexGrid" Click="DrawAPointyTopHexGrid_Click" Content="Draw a Pointy Top Hex Grid"/>
-        </StackPanel>
+            <Button x:Name="DrawAFlatTopHexGridWithVertAnnot" Click="DrawAFlatTopHexGridWithVertAnnot_Click" Content="Draw a Flat Top Hex Grid with Vertice annotation"/>
+            <Button x:Name="DrawAPointyTopHexGridWithVertAnnot" Click="DrawAPointyTopHexGridWithVertAnnot_Click" Content="Draw a Pointy Top Hex Grid with Vertice annotation"/>
+        </WrapPanel>
     </Grid>
 </Window>

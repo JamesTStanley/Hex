@@ -98,6 +98,10 @@
       <Project>{9c90a495-08e1-46d9-afc6-f1b36876b565}</Project>
       <Name>HexCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HexWpf\HexWpf.csproj">
+      <Project>{15a7cffc-0e20-4c6e-ad33-a7106b6f9095}</Project>
+      <Name>HexWpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

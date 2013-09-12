@@ -60,6 +60,92 @@ namespace HexCoreTests
         }
 
         [TestMethod]
+        public void VerticieDirectionsFlatTopAreSetCorrectly()
+        {
+            var sut = _hexMapFlat.Item(1, 0);
+
+            var centerX = sut.CenterPoint.Item1;
+            var centerY = sut.CenterPoint.Item2;
+
+            for (int i = 0; i <= 5; i++)
+            {
+                var vertexX = sut.Vertices[i].Item1;
+                var vertexY = sut.Vertices[i].Item2;
+
+                switch (sut.VerticeDirections[i])
+                {
+                    case HexDirection.E:
+                        Assert.IsTrue(vertexX > centerX);
+                        Assert.IsTrue(DoublesAreApproximatelyEqual(centerY, vertexY));
+                        break;
+                    case HexDirection.W:
+                        Assert.IsTrue(vertexX < centerX);
+                        Assert.IsTrue(DoublesAreApproximatelyEqual(centerY, vertexY));
+                        break;
+                    case HexDirection.NE:
+                        Assert.IsTrue(vertexX > centerX);
+                        Assert.IsTrue(vertexY > centerY);
+                        break;
+                    case HexDirection.NW:
+                        Assert.IsTrue(vertexX < centerX);
+                        Assert.IsTrue(vertexY > centerY);
+                        break;
+                    case HexDirection.SE:
+                        Assert.IsTrue(vertexX > centerX);
+                        Assert.IsTrue(vertexY < centerY);
+                        break;
+                    case HexDirection.SW:
+                        Assert.IsTrue(vertexX < centerX);
+                        Assert.IsTrue(vertexY < centerY);
+                        break;
+                }
+            }
+        }
+
+        [TestMethod]
+        public void VerticieDirectionsPointyTopAreSetCorrectly()
+        {
+            var sut = _hexMapPointy.Item(1, 0);
+
+            var centerX = sut.CenterPoint.Item1;
+            var centerY = sut.CenterPoint.Item2;
+
+            for (int i = 0; i <= 5; i++)
+            {
+                var verticieX = sut.Vertices[i].Item1;
+                var verticieY = sut.Vertices[i].Item2;
+
+                switch (sut.VerticeDirections[i])
+                {
+                    case HexDirection.N:
+                        Assert.IsTrue(DoublesAreApproximatelyEqual(centerX, verticieX));
+                        Assert.IsTrue(verticieY > centerY);
+                        break;
+                    case HexDirection.S:
+                        Assert.IsTrue(DoublesAreApproximatelyEqual(centerX, verticieX));
+                        Assert.IsTrue(verticieY < centerY);
+                        break;
+                    case HexDirection.NE:
+                        Assert.IsTrue(verticieX > centerX);
+                        Assert.IsTrue(verticieY > centerY);
+                        break;
+                    case HexDirection.NW:
+                        Assert.IsTrue(verticieX < centerX);
+                        Assert.IsTrue(verticieY > centerY);
+                        break;
+                    case HexDirection.SE:
+                        Assert.IsTrue(verticieX > centerX);
+                        Assert.IsTrue(verticieY < centerY);
+                        break;
+                    case HexDirection.SW:
+                        Assert.IsTrue(verticieX < centerX);
+                        Assert.IsTrue(verticieY < centerY);
+                        break;
+                }
+            }
+        }
+
+        [TestMethod]
         public void VerticiesPointyTopCalculatedCorrectly()
         {
             var sut = _hexMapPointy.Item(1, 0);

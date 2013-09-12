@@ -10,7 +10,7 @@ namespace Hex
     /// maps that either aren't hexagonal in shape, or have some alternate 
     /// coordinate system where the center hex isn't 0,0,0 (cube) or 0,0 (axial).
     /// </summary>
-    public abstract class HexMapItemBase<T>
+    public abstract class HexMapItemBase
     {
         #region Constructors
 
@@ -20,12 +20,6 @@ namespace Hex
             Y = y;
             Z = z;
             Ring = (Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z)) / 2;
-        }
-
-        protected HexMapItemBase(int x, int y, int z, T value)
-            : this(x, y, z)
-        {
-            Value = value;
         }
 
         #endregion
@@ -70,12 +64,6 @@ namespace Hex
         /// of the center hex == 1, etc.
         /// </summary>
         public int Ring { get; private set; }
-
-        /// <summary>
-        /// Generic typed value that represents what's contained in a
-        /// particular hex map item
-        /// </summary>
-        public T Value { get; set; }
 
         #endregion
     }

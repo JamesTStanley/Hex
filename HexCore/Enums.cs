@@ -8,4 +8,16 @@
         FlatTopped,
         PointyTopped
     };
+
+    public enum HexDirection
+    {
+        N,
+        NE,
+        E,
+        SE,
+        S,
+        SW,
+        W,
+        NW
+    }
 }

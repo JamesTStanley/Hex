@@ -6,9 +6,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:HexControl}">
-                    <Grid>
-                        <Polygon Name="HexBackground"  Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
+                    <Canvas Name="HexCanvas">
+                        <Polygon Name="HexBackground" Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}"/>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

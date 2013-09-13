@@ -38,11 +38,11 @@ namespace HexControlWpf
                                                                       FrameworkPropertyMetadataOptions.AffectsArrange |
                                                                       FrameworkPropertyMetadataOptions.AffectsMeasure |
                                                                       FrameworkPropertyMetadataOptions.AffectsRender,
-                                                                      OnHexOrientationPropertyChanged));
+                                            OnHexOrientationPropertyChanged));
 
         private static void OnHexOrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            
+            ((HexControl)d).UpdateElementLayout();
         }
 
         public double VertexRadius
@@ -67,31 +67,44 @@ namespace HexControlWpf
 
         private static void OnVertexRadiusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((HexControl)d).CalculateVerticies();
-            //((HexControl) d).InvalidateVisual();
+            ((HexControl)d).UpdateElementLayout();
         }
 
         #endregion
 
-        private Polygon _hexBackgroundElement;
-        public Polygon HexBackgroundElement
-        {
-            get { return _hexBackgroundElement; }
-            set 
-            {
-                _hexBackgroundElement = value; 
-                if (_hexBackgroundElement != null)
-                    CalculateVerticies();
-            }
-        }
+        // TODO: Not sure these need to be pulic, or even properties
+        public Polygon HexBackgroundElement { get; set; }
+        public Canvas HexCanvasElement { get; set; }
 
         public override void OnApplyTemplate()
         {
             HexBackgroundElement = GetTemplateChild("HexBackground") as Polygon;
+            HexCanvasElement = GetTemplateChild("HexCanvas") as Canvas;
             base.OnApplyTemplate();
         }
 
-        internal void CalculateVerticies()
+        internal void UpdateElementLayout()
+        {
+            if (HexBackgroundElement == null)
+                return;
+
+            switch (Orientation)
+            {
+                case HexOrientation.FlatTopped:
+                    HexCanvasElement.Width = 2 * VertexRadius;
+                    HexCanvasElement.Height = Math.Sqrt(3) * VertexRadius;
+                    break;
+                case HexOrientation.PointyTopped:
+                    HexCanvasElement.Width = Math.Sqrt(3)*VertexRadius;
+                    HexCanvasElement.Height = 2 * VertexRadius;
+                    break;
+            }
+            HexBackgroundElement.Points = CalculateVerticies();
+            HexBackgroundElement.Width = HexCanvasElement.Width;
+            HexBackgroundElement.Height = HexCanvasElement.Height;
+        }
+
+        private PointCollection CalculateVerticies()
         {
             var verticies = new PointCollection(6);
 
@@ -106,10 +119,12 @@ namespace HexControlWpf
                 var vertexX = VertexRadius * Math.Cos(angle);
                 var vertexY = VertexRadius * Math.Sin(angle);
 
-                verticies.Add(new Point(vertexX, vertexY));
+                // The plus-dimension-divide-by-2 is to get the polygon centered within its canvas which has 0,0 in
+                // the UL corner and not the center, as the calculation will yield many negative coordinate values
+                verticies.Add(new Point(vertexX + HexCanvasElement.Width / 2, vertexY + HexCanvasElement.Height / 2));
             }
 
-            HexBackgroundElement.Points = verticies;
+            return verticies;
         }
     }
 }

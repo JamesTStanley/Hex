@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDisplaySample", "WpfDisp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexWpf", "HexWpf\HexWpf.csproj", "{15A7CFFC-0E20-4C6E-AD33-A7106B6F9095}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexControlWpf", "HexControlWpf\HexControlWpf.csproj", "{65525F81-84A1-4465-8FCA-90A3029BC58C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{15A7CFFC-0E20-4C6E-AD33-A7106B6F9095}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A7CFFC-0E20-4C6E-AD33-A7106B6F9095}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A7CFFC-0E20-4C6E-AD33-A7106B6F9095}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65525F81-84A1-4465-8FCA-90A3029BC58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65525F81-84A1-4465-8FCA-90A3029BC58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65525F81-84A1-4465-8FCA-90A3029BC58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65525F81-84A1-4465-8FCA-90A3029BC58C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

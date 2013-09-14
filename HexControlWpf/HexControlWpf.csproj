@@ -51,6 +51,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="HexControl.cs">
       <SubType>Code</SubType>
     </Compile>

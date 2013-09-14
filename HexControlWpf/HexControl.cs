@@ -73,13 +73,25 @@ namespace HexControlWpf
         #endregion
 
         // TODO: Not sure these need to be pulic, or even properties
-        public Polygon HexBackgroundElement { get; set; }
         public Canvas HexCanvasElement { get; set; }
+        public Polygon HexBackgroundElement { get; set; }
+        public Polyline[] HexFaces { get; set; }
+
+        private List<Tuple<double, double>> _verticies;
+        
 
         public override void OnApplyTemplate()
         {
             HexBackgroundElement = GetTemplateChild("HexBackground") as Polygon;
             HexCanvasElement = GetTemplateChild("HexCanvas") as Canvas;
+            HexFaces = new Polyline[6];
+            HexFaces[0] = GetTemplateChild("HexFace0") as Polyline;
+            HexFaces[1] = GetTemplateChild("HexFace1") as Polyline;
+            HexFaces[2] = GetTemplateChild("HexFace2") as Polyline;
+            HexFaces[3] = GetTemplateChild("HexFace3") as Polyline;
+            HexFaces[4] = GetTemplateChild("HexFace4") as Polyline;
+            HexFaces[5] = GetTemplateChild("HexFace5") as Polyline;
+
             base.OnApplyTemplate();
         }
 
@@ -99,14 +111,19 @@ namespace HexControlWpf
                     HexCanvasElement.Height = 2 * VertexRadius;
                     break;
             }
-            HexBackgroundElement.Points = CalculateVerticies();
+
+            CalculateVerticies();
+            HexBackgroundElement.Points = _verticies.AsPointCollection();
+            for (int i=0; i<=5; i++)
+                HexFaces[i].Points = _verticies.AsPointCollection(i);
+
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;
         }
 
-        private PointCollection CalculateVerticies()
+        private void CalculateVerticies()
         {
-            var verticies = new PointCollection(6);
+            _verticies = new List<Tuple<double, double>>(6);
 
             for (int i = 0; i < 6; i++)
             {
@@ -121,10 +138,12 @@ namespace HexControlWpf
 
                 // The plus-dimension-divide-by-2 is to get the polygon centered within its canvas which has 0,0 in
                 // the UL corner and not the center, as the calculation will yield many negative coordinate values
-                verticies.Add(new Point(vertexX + HexCanvasElement.Width / 2, vertexY + HexCanvasElement.Height / 2));
+                _verticies.Add(new Tuple<double, double>(
+                                vertexX + HexCanvasElement.Width / 2, 
+                                vertexY + HexCanvasElement.Height / 2));
             }
 
-            return verticies;
+           
         }
     }
 }

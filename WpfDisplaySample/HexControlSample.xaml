@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <HexControl:HexControl Grid.Row="0" Orientation="PointyTopped" VertexRadius="{Binding Value, ElementName=Slider}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red"/>
+        <HexControl:HexControl Grid.Row="0" Orientation="FlatTopped" VertexRadius="{Binding Value, ElementName=Slider}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red"/>
         
         <Slider x:Name="Slider" Grid.Row="1" Minimum="1" Maximum="100" Value="50" Width="100"/>
         

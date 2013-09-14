@@ -8,6 +8,12 @@
                 <ControlTemplate TargetType="{x:Type local:HexControl}">
                     <Canvas Name="HexCanvas">
                         <Polygon Name="HexBackground" Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}"/>
+                        <Polyline Name="HexFace0" Stroke="Fuchsia" StrokeThickness="5"/>
+                        <Polyline Name="HexFace1" Stroke="Chartreuse" StrokeThickness="5"/>
+                        <Polyline Name="HexFace2" Stroke="Teal" StrokeThickness="5"/>
+                        <Polyline Name="HexFace3" Stroke="Yellow" StrokeThickness="5"/>
+                        <Polyline Name="HexFace4" Stroke="Green" StrokeThickness="5"/>
+                        <Polyline Name="HexFace5" Stroke="Indigo" StrokeThickness="5"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

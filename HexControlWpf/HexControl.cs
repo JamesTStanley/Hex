@@ -97,6 +97,7 @@ namespace HexControlWpf
         public Canvas HexCanvasElement { get; set; }
         public Polygon HexBackgroundElement { get; set; }
         public Polyline[] HexFaces { get; set; }
+        public Polygon[] Sextants { get; set; }
 
         private List<Tuple<double, double>> _verticies;
         
@@ -112,6 +113,13 @@ namespace HexControlWpf
             HexFaces[3] = GetTemplateChild("HexFace3") as Polyline;
             HexFaces[4] = GetTemplateChild("HexFace4") as Polyline;
             HexFaces[5] = GetTemplateChild("HexFace5") as Polyline;
+            Sextants = new Polygon[6];
+            Sextants[0] = GetTemplateChild("Sextant0") as Polygon;
+            Sextants[1] = GetTemplateChild("Sextant1") as Polygon;
+            Sextants[2] = GetTemplateChild("Sextant2") as Polygon;
+            Sextants[3] = GetTemplateChild("Sextant3") as Polygon;
+            Sextants[4] = GetTemplateChild("Sextant4") as Polygon;
+            Sextants[5] = GetTemplateChild("Sextant5") as Polygon;
 
             base.OnApplyTemplate();
         }
@@ -134,9 +142,12 @@ namespace HexControlWpf
             }
 
             CalculateVerticies();
-            HexBackgroundElement.Points = _verticies.AsPointCollection();
-            for (int i=0; i<=5; i++)
-                HexFaces[i].Points = _verticies.AsPointCollection(i);
+            HexBackgroundElement.Points = _verticies.AsBoundary();
+            for (int i = 0; i <= 5; i++)
+            {
+                HexFaces[i].Points = _verticies.AsFace(i);
+                Sextants[i].Points = _verticies.AsSextant(i);
+            }
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;
@@ -163,8 +174,6 @@ namespace HexControlWpf
                                 vertexX + HexCanvasElement.Width / 2, 
                                 vertexY + HexCanvasElement.Height / 2));
             }
-
-           
         }
     }
 }

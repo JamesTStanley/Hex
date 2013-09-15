@@ -70,6 +70,27 @@ namespace HexControlWpf
             ((HexControl)d).UpdateElementLayout();
         }
 
+        public double FaceStrokeThickness
+        {
+            get { return (double)GetValue(FaceStrokeThicknessProperty); }
+            set { SetValue(FaceStrokeThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty FaceStrokeThicknessProperty =
+            DependencyProperty.Register("FaceStrokeThickness", typeof(double), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public Brush FaceStroke
+        {
+            get { return GetValue(FaceStrokeProperty) as Brush; }
+            set { SetValue(FaceStrokeProperty, value); }
+        }
+
+        public static readonly DependencyProperty FaceStrokeProperty =
+            DependencyProperty.Register("FaceStroke", typeof(Brush), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Black), 
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+        
         #endregion
 
         // TODO: Not sure these need to be pulic, or even properties

@@ -23,5 +23,10 @@ namespace WpfDisplaySample
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SampleHex.HexFaces[0].Visibility = System.Windows.Visibility.Collapsed;
+        }
     }
 }

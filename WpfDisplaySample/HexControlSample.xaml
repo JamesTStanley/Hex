@@ -23,6 +23,31 @@
                     <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </HexControl:HexControl.Content0>
+            <HexControl:HexControl.Content1>
+                <Grid Background="GreenYellow" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content1>
+            <HexControl:HexControl.Content2>
+                <Grid Background="LightBlue" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content2>
+            <HexControl:HexControl.Content3>
+                <Grid Background="PaleGoldenrod" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content3>
+            <HexControl:HexControl.Content4>
+                <Grid Background="Thistle" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content4>
+            <HexControl:HexControl.Content5>
+                <Grid Background="BurlyWood" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content5>
         </HexControl:HexControl>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">

@@ -21,6 +21,11 @@
                         <Polyline Name="HexFace4" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <Polyline Name="HexFace5" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <ContentPresenter Name="Sextant0Content" Content="{TemplateBinding Content0}" />
+                        <ContentPresenter Name="Sextant1Content" Content="{TemplateBinding Content1}" />
+                        <ContentPresenter Name="Sextant2Content" Content="{TemplateBinding Content2}" />
+                        <ContentPresenter Name="Sextant3Content" Content="{TemplateBinding Content3}" />
+                        <ContentPresenter Name="Sextant4Content" Content="{TemplateBinding Content4}" />
+                        <ContentPresenter Name="Sextant5Content" Content="{TemplateBinding Content5}" />
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

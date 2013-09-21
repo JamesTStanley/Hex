@@ -102,6 +102,60 @@ namespace HexControlWpf
                                         new FrameworkPropertyMetadata(null,
                                         FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public object Content1
+        {
+            get { return GetValue(Content1Property); }
+            set { SetValue(Content1Property, value); }
+        }
+
+        public static readonly DependencyProperty Content1Property =
+            DependencyProperty.Register("Content1", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public object Content2
+        {
+            get { return GetValue(Content2Property); }
+            set { SetValue(Content2Property, value); }
+        }
+
+        public static readonly DependencyProperty Content2Property =
+            DependencyProperty.Register("Content2", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public object Content3
+        {
+            get { return GetValue(Content3Property); }
+            set { SetValue(Content3Property, value); }
+        }
+
+        public static readonly DependencyProperty Content3Property =
+            DependencyProperty.Register("Content3", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public object Content4
+        {
+            get { return GetValue(Content4Property); }
+            set { SetValue(Content4Property, value); }
+        }
+
+        public static readonly DependencyProperty Content4Property =
+            DependencyProperty.Register("Content4", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public object Content5
+        {
+            get { return GetValue(Content5Property); }
+            set { SetValue(Content5Property, value); }
+        }
+
+        public static readonly DependencyProperty Content5Property =
+            DependencyProperty.Register("Content5", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
         #endregion
 
         // TODO: Not sure these need to be pulic, or even properties
@@ -110,6 +164,11 @@ namespace HexControlWpf
         public Polyline[] HexFaces { get; set; }
         public Polygon[] Sextants { get; set; }
         public ContentPresenter ContentPresenter0 { get; set; }
+        public ContentPresenter ContentPresenter1 { get; set; }
+        public ContentPresenter ContentPresenter2 { get; set; }
+        public ContentPresenter ContentPresenter3 { get; set; }
+        public ContentPresenter ContentPresenter4 { get; set; }
+        public ContentPresenter ContentPresenter5 { get; set; }
 
 
         private List<Tuple<double, double>> _verticies;
@@ -134,6 +193,11 @@ namespace HexControlWpf
             Sextants[5] = GetTemplateChild("Sextant5") as Polygon;
 
             ContentPresenter0 = GetTemplateChild("Sextant0Content") as ContentPresenter;
+            ContentPresenter1 = GetTemplateChild("Sextant1Content") as ContentPresenter;
+            ContentPresenter2 = GetTemplateChild("Sextant2Content") as ContentPresenter;
+            ContentPresenter3 = GetTemplateChild("Sextant3Content") as ContentPresenter;
+            ContentPresenter4 = GetTemplateChild("Sextant4Content") as ContentPresenter;
+            ContentPresenter5 = GetTemplateChild("Sextant5Content") as ContentPresenter;
 
             base.OnApplyTemplate();
         }
@@ -169,6 +233,41 @@ namespace HexControlWpf
             ContentPresenter0.SetValue(Canvas.LeftProperty, cp0Size.Left);
             ContentPresenter0.SetValue(Canvas.TopProperty, cp0Size.Top);
             ContentPresenter0.Clip = _verticies.AsSextantClipGeometry(0);
+
+            var cp1Size = _verticies.AsSextantBoundingBox(1);
+            ContentPresenter1.Width = cp1Size.Width;
+            ContentPresenter1.Height = cp1Size.Height;
+            ContentPresenter1.SetValue(Canvas.LeftProperty, cp1Size.Left);
+            ContentPresenter1.SetValue(Canvas.TopProperty, cp1Size.Top);
+            ContentPresenter1.Clip = _verticies.AsSextantClipGeometry(1);
+
+            var cp2Size = _verticies.AsSextantBoundingBox(2);
+            ContentPresenter2.Width = cp2Size.Width;
+            ContentPresenter2.Height = cp2Size.Height;
+            ContentPresenter2.SetValue(Canvas.LeftProperty, cp2Size.Left);
+            ContentPresenter2.SetValue(Canvas.TopProperty, cp2Size.Top);
+            ContentPresenter2.Clip = _verticies.AsSextantClipGeometry(2);
+
+            var cp3Size = _verticies.AsSextantBoundingBox(3);
+            ContentPresenter3.Width = cp3Size.Width;
+            ContentPresenter3.Height = cp3Size.Height;
+            ContentPresenter3.SetValue(Canvas.LeftProperty, cp3Size.Left);
+            ContentPresenter3.SetValue(Canvas.TopProperty, cp3Size.Top);
+            ContentPresenter3.Clip = _verticies.AsSextantClipGeometry(3);
+
+            var cp4Size = _verticies.AsSextantBoundingBox(4);
+            ContentPresenter4.Width = cp4Size.Width;
+            ContentPresenter4.Height = cp4Size.Height;
+            ContentPresenter4.SetValue(Canvas.LeftProperty, cp4Size.Left);
+            ContentPresenter4.SetValue(Canvas.TopProperty, cp4Size.Top);
+            ContentPresenter4.Clip = _verticies.AsSextantClipGeometry(4);
+
+            var cp5Size = _verticies.AsSextantBoundingBox(5);
+            ContentPresenter5.Width = cp5Size.Width;
+            ContentPresenter5.Height = cp5Size.Height;
+            ContentPresenter5.SetValue(Canvas.LeftProperty, cp5Size.Left);
+            ContentPresenter5.SetValue(Canvas.TopProperty, cp5Size.Top);
+            ContentPresenter5.Clip = _verticies.AsSextantClipGeometry(5);
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;

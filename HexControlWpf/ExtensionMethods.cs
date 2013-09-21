@@ -93,22 +93,34 @@ namespace HexControlWpf
         /// <returns></returns>
         public static Geometry AsSextantClipGeometry(this List<Tuple<double, double>> verticies, int startingPoint)
         {
-            var centerX = verticies.Average(v => v.Item1);
-            var centerY = verticies.Average(v => v.Item2);
-
-            var vertex1 = verticies[startingPoint];
-            var vertex2 = startingPoint == 5 ? verticies[0] : verticies[startingPoint + 1];
-
-            var vertex1Point = new Point(vertex1.Item1 - centerX, vertex1.Item2 - centerY);
-            var vertex2Point = new Point(vertex2.Item1 - centerX, vertex2.Item2 - centerY);
+            var centerPoint = new Point(verticies.Average(v => v.Item1), verticies.Average(v => v.Item2));
+            var vertex1 = verticies[startingPoint].AsPoint();
+            var vertex2 = startingPoint == 5 ? verticies[0].AsPoint() : verticies[startingPoint + 1].AsPoint();
             
-            var segmentCollection = new PathSegmentCollection(2);
-            segmentCollection.Add(new LineSegment(vertex1Point, true));
-            segmentCollection.Add(new LineSegment(vertex2Point, true));
-            var figureCollection = new PathFigureCollection(1);
-            figureCollection.Add(new PathFigure(new Point(0,0), segmentCollection, true));
-            var clip = new PathGeometry(figureCollection);
-            clip.FillRule = FillRule.Nonzero;
+            // Adjust everything to a coordinate system where the upper left
+            // bound of this sextant is 0,0
+            var deltaX = Math.Min(centerPoint.X, Math.Min(vertex1.X, vertex2.X));
+            var deltaY = Math.Min(centerPoint.Y, Math.Min(vertex1.Y, vertex2.Y));
+            centerPoint.X -= deltaX;
+            vertex1.X -= deltaX;
+            vertex2.X -= deltaX;
+            centerPoint.Y -= deltaY;
+            vertex1.Y -= deltaY;
+            vertex2.Y -= deltaY;
+
+            var segmentCollection = new PathSegmentCollection(2) 
+                {
+                    new LineSegment(vertex1, true),
+                    new LineSegment(vertex2, true)
+                };
+
+            var figureCollection = new PathFigureCollection(1)
+                {
+                    new PathFigure(centerPoint, segmentCollection, true)
+                };
+
+            var clip = new PathGeometry(figureCollection) { FillRule = FillRule.Nonzero };
+
             return clip;
         }
 

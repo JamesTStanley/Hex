@@ -163,12 +163,7 @@ namespace HexControlWpf
         public Polygon HexBackgroundElement { get; set; }
         public Polyline[] HexFaces { get; set; }
         public Polygon[] Sextants { get; set; }
-        public ContentPresenter ContentPresenter0 { get; set; }
-        public ContentPresenter ContentPresenter1 { get; set; }
-        public ContentPresenter ContentPresenter2 { get; set; }
-        public ContentPresenter ContentPresenter3 { get; set; }
-        public ContentPresenter ContentPresenter4 { get; set; }
-        public ContentPresenter ContentPresenter5 { get; set; }
+        public ContentPresenter[] SextantContents { get; set; }
 
 
         private List<Tuple<double, double>> _verticies;
@@ -192,12 +187,13 @@ namespace HexControlWpf
             Sextants[4] = GetTemplateChild("Sextant4") as Polygon;
             Sextants[5] = GetTemplateChild("Sextant5") as Polygon;
 
-            ContentPresenter0 = GetTemplateChild("Sextant0Content") as ContentPresenter;
-            ContentPresenter1 = GetTemplateChild("Sextant1Content") as ContentPresenter;
-            ContentPresenter2 = GetTemplateChild("Sextant2Content") as ContentPresenter;
-            ContentPresenter3 = GetTemplateChild("Sextant3Content") as ContentPresenter;
-            ContentPresenter4 = GetTemplateChild("Sextant4Content") as ContentPresenter;
-            ContentPresenter5 = GetTemplateChild("Sextant5Content") as ContentPresenter;
+            SextantContents = new ContentPresenter[6];
+            SextantContents[0] = GetTemplateChild("Sextant0Content") as ContentPresenter;
+            SextantContents[1] = GetTemplateChild("Sextant1Content") as ContentPresenter;
+            SextantContents[2] = GetTemplateChild("Sextant2Content") as ContentPresenter;
+            SextantContents[3] = GetTemplateChild("Sextant3Content") as ContentPresenter;
+            SextantContents[4] = GetTemplateChild("Sextant4Content") as ContentPresenter;
+            SextantContents[5] = GetTemplateChild("Sextant5Content") as ContentPresenter;
 
             base.OnApplyTemplate();
         }
@@ -225,49 +221,14 @@ namespace HexControlWpf
             {
                 HexFaces[i].Points = _verticies.AsFace(i);
                 Sextants[i].Points = _verticies.AsSextant(i);
+
+                var size = _verticies.AsSextantBoundingBox(i);
+                SextantContents[i].Width = size.Width;
+                SextantContents[i].Height = size.Height;
+                SextantContents[i].SetValue(Canvas.LeftProperty, size.Left);
+                SextantContents[i].SetValue(Canvas.TopProperty, size.Top);
+                SextantContents[i].Clip = _verticies.AsSextantClipGeometry(i);
             }
-
-            var cp0Size = _verticies.AsSextantBoundingBox(0);
-            ContentPresenter0.Width = cp0Size.Width;
-            ContentPresenter0.Height = cp0Size.Height;
-            ContentPresenter0.SetValue(Canvas.LeftProperty, cp0Size.Left);
-            ContentPresenter0.SetValue(Canvas.TopProperty, cp0Size.Top);
-            ContentPresenter0.Clip = _verticies.AsSextantClipGeometry(0);
-
-            var cp1Size = _verticies.AsSextantBoundingBox(1);
-            ContentPresenter1.Width = cp1Size.Width;
-            ContentPresenter1.Height = cp1Size.Height;
-            ContentPresenter1.SetValue(Canvas.LeftProperty, cp1Size.Left);
-            ContentPresenter1.SetValue(Canvas.TopProperty, cp1Size.Top);
-            ContentPresenter1.Clip = _verticies.AsSextantClipGeometry(1);
-
-            var cp2Size = _verticies.AsSextantBoundingBox(2);
-            ContentPresenter2.Width = cp2Size.Width;
-            ContentPresenter2.Height = cp2Size.Height;
-            ContentPresenter2.SetValue(Canvas.LeftProperty, cp2Size.Left);
-            ContentPresenter2.SetValue(Canvas.TopProperty, cp2Size.Top);
-            ContentPresenter2.Clip = _verticies.AsSextantClipGeometry(2);
-
-            var cp3Size = _verticies.AsSextantBoundingBox(3);
-            ContentPresenter3.Width = cp3Size.Width;
-            ContentPresenter3.Height = cp3Size.Height;
-            ContentPresenter3.SetValue(Canvas.LeftProperty, cp3Size.Left);
-            ContentPresenter3.SetValue(Canvas.TopProperty, cp3Size.Top);
-            ContentPresenter3.Clip = _verticies.AsSextantClipGeometry(3);
-
-            var cp4Size = _verticies.AsSextantBoundingBox(4);
-            ContentPresenter4.Width = cp4Size.Width;
-            ContentPresenter4.Height = cp4Size.Height;
-            ContentPresenter4.SetValue(Canvas.LeftProperty, cp4Size.Left);
-            ContentPresenter4.SetValue(Canvas.TopProperty, cp4Size.Top);
-            ContentPresenter4.Clip = _verticies.AsSextantClipGeometry(4);
-
-            var cp5Size = _verticies.AsSextantBoundingBox(5);
-            ContentPresenter5.Width = cp5Size.Width;
-            ContentPresenter5.Height = cp5Size.Height;
-            ContentPresenter5.SetValue(Canvas.LeftProperty, cp5Size.Left);
-            ContentPresenter5.SetValue(Canvas.TopProperty, cp5Size.Top);
-            ContentPresenter5.Clip = _verticies.AsSextantClipGeometry(5);
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;

@@ -20,7 +20,7 @@
                         <Polyline Name="HexFace3" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <Polyline Name="HexFace4" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <Polyline Name="HexFace5" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        
+                        <ContentPresenter Name="Sextant0Content" Content="{TemplateBinding Content0}" />
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

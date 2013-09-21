@@ -17,7 +17,13 @@
 			VerticalAlignment="Center" 
             FaceStrokeThickness="{Binding Value, ElementName=FaceStrokeThicknessSlider}"
             FaceStroke="SkyBlue"
-			Background="LavenderBlush"/>
+			Background="LavenderBlush">
+            <HexControl:HexControl.Content0>
+                <Grid Background="Yellow" >
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </HexControl:HexControl.Content0>
+        </HexControl:HexControl>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Slider x:Name="VertexRadiusSlider" Minimum="1" Maximum="200" Value="100" Width="200"/>

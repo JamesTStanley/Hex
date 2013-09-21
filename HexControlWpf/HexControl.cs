@@ -90,7 +90,18 @@ namespace HexControlWpf
             DependencyProperty.Register("FaceStroke", typeof(Brush), typeof(HexControl),
                                         new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Black), 
                                         FrameworkPropertyMetadataOptions.AffectsRender));
-        
+
+        public object Content0
+        {
+            get { return GetValue(Content0Property); }
+            set { SetValue(Content0Property, value); }
+        }
+
+        public static readonly DependencyProperty Content0Property =
+            DependencyProperty.Register("Content0", typeof(object), typeof(HexControl),
+                                        new FrameworkPropertyMetadata(null,
+                                        FrameworkPropertyMetadataOptions.AffectsRender));
+
         #endregion
 
         // TODO: Not sure these need to be pulic, or even properties
@@ -98,10 +109,11 @@ namespace HexControlWpf
         public Polygon HexBackgroundElement { get; set; }
         public Polyline[] HexFaces { get; set; }
         public Polygon[] Sextants { get; set; }
+        public ContentPresenter ContentPresenter0 { get; set; }
+
 
         private List<Tuple<double, double>> _verticies;
         
-
         public override void OnApplyTemplate()
         {
             HexBackgroundElement = GetTemplateChild("HexBackground") as Polygon;
@@ -120,6 +132,8 @@ namespace HexControlWpf
             Sextants[3] = GetTemplateChild("Sextant3") as Polygon;
             Sextants[4] = GetTemplateChild("Sextant4") as Polygon;
             Sextants[5] = GetTemplateChild("Sextant5") as Polygon;
+
+            ContentPresenter0 = GetTemplateChild("Sextant0Content") as ContentPresenter;
 
             base.OnApplyTemplate();
         }
@@ -148,6 +162,13 @@ namespace HexControlWpf
                 HexFaces[i].Points = _verticies.AsFace(i);
                 Sextants[i].Points = _verticies.AsSextant(i);
             }
+
+            var cp0Size = _verticies.AsSextantBoundingBox(0);
+            ContentPresenter0.Width = cp0Size.Width;
+            ContentPresenter0.Height = cp0Size.Height;
+            ContentPresenter0.SetValue(Canvas.LeftProperty, cp0Size.Left);
+            ContentPresenter0.SetValue(Canvas.TopProperty, cp0Size.Top);
+            ContentPresenter0.Clip = _verticies.AsSextantClipGeometry(0);
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;

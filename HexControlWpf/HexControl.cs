@@ -163,8 +163,8 @@ namespace HexControlWpf
         public Polygon HexBackgroundElement { get; set; }
         public Polyline[] HexFaces { get; set; }
         public Polygon[] Sextants { get; set; }
-        public ContentPresenter[] SextantContents { get; set; }
-
+        public ContentControl[] SextantContents { get; set; }
+        public ContentPresenter Sextant0ContentPresenter { get; set; }
 
         private List<Tuple<double, double>> _verticies;
         
@@ -187,13 +187,15 @@ namespace HexControlWpf
             Sextants[4] = GetTemplateChild("Sextant4") as Polygon;
             Sextants[5] = GetTemplateChild("Sextant5") as Polygon;
 
-            SextantContents = new ContentPresenter[6];
-            SextantContents[0] = GetTemplateChild("Sextant0Content") as ContentPresenter;
-            SextantContents[1] = GetTemplateChild("Sextant1Content") as ContentPresenter;
-            SextantContents[2] = GetTemplateChild("Sextant2Content") as ContentPresenter;
-            SextantContents[3] = GetTemplateChild("Sextant3Content") as ContentPresenter;
-            SextantContents[4] = GetTemplateChild("Sextant4Content") as ContentPresenter;
-            SextantContents[5] = GetTemplateChild("Sextant5Content") as ContentPresenter;
+            SextantContents = new ContentControl[6];
+            SextantContents[0] = GetTemplateChild("Sextant0Content") as ContentControl;
+            SextantContents[1] = GetTemplateChild("Sextant1Content") as ContentControl;
+            SextantContents[2] = GetTemplateChild("Sextant2Content") as ContentControl;
+            SextantContents[3] = GetTemplateChild("Sextant3Content") as ContentControl;
+            SextantContents[4] = GetTemplateChild("Sextant4Content") as ContentControl;
+            SextantContents[5] = GetTemplateChild("Sextant5Content") as ContentControl;
+
+            Sextant0ContentPresenter = GetTemplateChild("Sextant0ContentPresenter") as ContentPresenter;
 
             base.OnApplyTemplate();
         }
@@ -229,6 +231,16 @@ namespace HexControlWpf
                 SextantContents[i].SetValue(Canvas.TopProperty, size.Top);
                 SextantContents[i].Clip = _verticies.AsSextantClipGeometry(i);
             }
+
+            // TODO: Generalize for other sextants. Angle could be a fact table
+            // based on orientation & sextant number if the calculation doesn't
+            // present itself easily.
+            var cp0TranslateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
+            var cp0TranslateY = (_verticies[1].Item2 - _verticies[0].Item2) / 2;
+            var stGroup = new TransformGroup();
+            stGroup.Children.Add(new RotateTransform(-60d));
+            stGroup.Children.Add(new TranslateTransform(cp0TranslateX, cp0TranslateY));
+            Sextant0ContentPresenter.RenderTransform = stGroup;
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;

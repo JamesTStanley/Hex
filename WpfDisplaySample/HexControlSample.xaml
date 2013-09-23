@@ -20,7 +20,7 @@
 			Background="LavenderBlush">
             <HexControl:HexControl.Content0>
                 <Grid Background="Yellow" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="ABC" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                 </Grid>
             </HexControl:HexControl.Content0>
             <HexControl:HexControl.Content1>

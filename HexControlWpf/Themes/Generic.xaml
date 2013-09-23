@@ -20,12 +20,24 @@
                         <Polyline Name="HexFace3" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <Polyline Name="HexFace4" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
                         <Polyline Name="HexFace5" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <ContentPresenter Name="Sextant0Content" Content="{TemplateBinding Content0}" />
-                        <ContentPresenter Name="Sextant1Content" Content="{TemplateBinding Content1}" />
-                        <ContentPresenter Name="Sextant2Content" Content="{TemplateBinding Content2}" />
-                        <ContentPresenter Name="Sextant3Content" Content="{TemplateBinding Content3}" />
-                        <ContentPresenter Name="Sextant4Content" Content="{TemplateBinding Content4}" />
-                        <ContentPresenter Name="Sextant5Content" Content="{TemplateBinding Content5}" />
+                        <ContentControl Name="Sextant0Content">
+                            <ContentPresenter Name="Sextant0ContentPresenter" Content="{TemplateBinding Content0}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
+                        <ContentControl Name="Sextant1Content">
+                            <ContentPresenter Name="Sextant1ContentPresenter" Content="{TemplateBinding Content1}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
+                        <ContentControl Name="Sextant2Content">
+                            <ContentPresenter Name="Sextant2ContentPresenter" Content="{TemplateBinding Content2}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
+                        <ContentControl Name="Sextant3Content">
+                            <ContentPresenter Name="Sextant3ContentPresenter" Content="{TemplateBinding Content3}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
+                        <ContentControl Name="Sextant4Content">
+                            <ContentPresenter Name="Sextant4ContentPresenter" Content="{TemplateBinding Content4}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
+                        <ContentControl Name="Sextant5Content">
+                            <ContentPresenter Name="Sextant5ContentPresenter" Content="{TemplateBinding Content5}" RenderTransformOrigin="0,0"/>
+                        </ContentControl>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

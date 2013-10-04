@@ -164,7 +164,7 @@ namespace HexControlWpf
         public Polyline[] HexFaces { get; set; }
         public Polygon[] Sextants { get; set; }
         public ContentControl[] SextantContents { get; set; }
-        public ContentPresenter Sextant0ContentPresenter { get; set; }
+        public ContentPresenter[] SextantContentPresenters { get; set; }
 
         private List<Tuple<double, double>> _verticies;
         
@@ -195,7 +195,13 @@ namespace HexControlWpf
             SextantContents[4] = GetTemplateChild("Sextant4Content") as ContentControl;
             SextantContents[5] = GetTemplateChild("Sextant5Content") as ContentControl;
 
-            Sextant0ContentPresenter = GetTemplateChild("Sextant0ContentPresenter") as ContentPresenter;
+            SextantContentPresenters = new ContentPresenter[6];
+            SextantContentPresenters[0] = GetTemplateChild("Sextant0ContentPresenter") as ContentPresenter;
+            SextantContentPresenters[1] = GetTemplateChild("Sextant1ContentPresenter") as ContentPresenter;
+            SextantContentPresenters[2] = GetTemplateChild("Sextant2ContentPresenter") as ContentPresenter;
+            SextantContentPresenters[3] = GetTemplateChild("Sextant3ContentPresenter") as ContentPresenter;
+            SextantContentPresenters[4] = GetTemplateChild("Sextant4ContentPresenter") as ContentPresenter;
+            SextantContentPresenters[5] = GetTemplateChild("Sextant5ContentPresenter") as ContentPresenter;
 
             base.OnApplyTemplate();
         }
@@ -225,22 +231,118 @@ namespace HexControlWpf
                 Sextants[i].Points = _verticies.AsSextant(i);
 
                 var size = _verticies.AsSextantBoundingBox(i);
-                SextantContents[i].Width = size.Width;
+                //SextantContents[i].Width = size.Width;
+                SextantContents[i].Width = VertexRadius;
                 SextantContents[i].Height = size.Height;
                 SextantContents[i].SetValue(Canvas.LeftProperty, size.Left);
                 SextantContents[i].SetValue(Canvas.TopProperty, size.Top);
                 SextantContents[i].Clip = _verticies.AsSextantClipGeometry(i);
             }
 
-            // TODO: Generalize for other sextants. Angle could be a fact table
-            // based on orientation & sextant number if the calculation doesn't
+            // TODO: Generalize. Angle could be a fact table based on 
+            // orientation & sextant number if the calculation doesn't
             // present itself easily.
-            var cp0TranslateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
-            var cp0TranslateY = (_verticies[1].Item2 - _verticies[0].Item2) / 2;
-            var stGroup = new TransformGroup();
-            stGroup.Children.Add(new RotateTransform(-60d));
-            stGroup.Children.Add(new TranslateTransform(cp0TranslateX, cp0TranslateY));
-            Sextant0ContentPresenter.RenderTransform = stGroup;
+            double translateX;
+            double translateY;
+            double rotateAngle;
+            Point transformOrigin;
+
+            for (int i = 0; i <= 5; i++)
+            {
+                if (Orientation == HexOrientation.FlatTopped)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            translateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
+                            translateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
+                            translateY = (_verticies[1].Item2 - _verticies[0].Item2) / 2;
+                            rotateAngle = -60d;
+                            transformOrigin = new Point(0, 0);
+                            break;
+                        case 1:
+                            translateX = 0;
+                            translateY = 0;
+                            rotateAngle = 0d;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                        case 2:
+                            translateX = (_verticies[3].Item1 - _verticies[2].Item1) / 2;
+                            translateY = (_verticies[3].Item2 - _verticies[2].Item2) / 2;
+                            rotateAngle = 60;
+                            transformOrigin = new Point(0.5, 1);
+                            break;
+                        case 3:
+                            translateX = (_verticies[3].Item1 - _verticies[4].Item1) / 2;
+                            translateY = (_verticies[4].Item2 - _verticies[3].Item2) / 2;
+                            rotateAngle = 120;
+                            transformOrigin = new Point(0.5, 1);
+                            break;
+                        case 4:
+                            translateX = 0;
+                            translateY = 0;
+                            rotateAngle = 180d;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                        case 5:
+                        default:
+                            translateX = (_verticies[5].Item1 - _verticies[0].Item1);
+                            translateY = (_verticies[0].Item2 - _verticies[5].Item2);
+                            rotateAngle = 240d;
+                            transformOrigin = new Point(0.5, 0);
+                            break;
+                    } 
+                }
+                else
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            translateX = 0;
+                            translateY = 0;
+                            rotateAngle = -30d;
+                            transformOrigin = new Point(0, 1);
+                            break;
+                        case 1:
+                            translateX = -0.13 * VertexRadius;
+                            translateY = translateX / 2;
+                            rotateAngle = 30d;
+                            transformOrigin = new Point(0.87, 1);
+                            break;
+                        case 2:
+                            translateX = 0;
+                            translateY = 0;
+                            rotateAngle = 90;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                        case 3:
+                            translateX = 0.18 * VertexRadius;
+                            translateY = translateX;
+                            rotateAngle = 150d;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                        case 4:
+                            translateX = -0.32 * VertexRadius;
+                            translateY = 0.18 * VertexRadius;
+                            rotateAngle = 210;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                        case 5:
+                        default:
+                            translateX = -0.13 * VertexRadius;
+                            translateY = 0;
+                            rotateAngle = 270;
+                            transformOrigin = new Point(0.5, 0.5);
+                            break;
+                    }
+                }
+
+                var stGroup = new TransformGroup();
+                stGroup.Children.Add(new RotateTransform(rotateAngle));
+                stGroup.Children.Add(new TranslateTransform(translateX, translateY));
+                SextantContentPresenters[i].RenderTransformOrigin = transformOrigin;
+                SextantContentPresenters[i].RenderTransform = stGroup;
+            }
 
             HexBackgroundElement.Width = HexCanvasElement.Width;
             HexBackgroundElement.Height = HexCanvasElement.Height;

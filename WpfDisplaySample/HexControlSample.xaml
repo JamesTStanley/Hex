@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         
         <HexControl:HexControl Name="SampleHex"  Grid.Row="0" 
-			Orientation="FlatTopped" 
+			Orientation="PointyTopped" 
 			VertexRadius="{Binding Value, ElementName=VertexRadiusSlider}" 
 			HorizontalAlignment="Center" 
 			VerticalAlignment="Center" 
@@ -20,32 +20,32 @@
 			Background="LavenderBlush">
             <HexControl:HexControl.Content0>
                 <Grid Background="Yellow" >
-                    <TextBlock Text="ABC" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    <TextBlock Text="ABCDEFGHIJKLMNOP" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                 </Grid>
             </HexControl:HexControl.Content0>
             <HexControl:HexControl.Content1>
                 <Grid Background="GreenYellow" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="ABCDEFGHIJKLMNOP" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </Grid>
             </HexControl:HexControl.Content1>
             <HexControl:HexControl.Content2>
                 <Grid Background="LightBlue" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </Grid>
             </HexControl:HexControl.Content2>
             <HexControl:HexControl.Content3>
                 <Grid Background="PaleGoldenrod" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </Grid>
             </HexControl:HexControl.Content3>
             <HexControl:HexControl.Content4>
                 <Grid Background="Thistle" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </Grid>
             </HexControl:HexControl.Content4>
             <HexControl:HexControl.Content5>
                 <Grid Background="BurlyWood" >
-                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Hello" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 </Grid>
             </HexControl:HexControl.Content5>
         </HexControl:HexControl>

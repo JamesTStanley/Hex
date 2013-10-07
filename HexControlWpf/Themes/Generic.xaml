@@ -8,18 +8,18 @@
                 <ControlTemplate TargetType="{x:Type local:HexControl}">
                     <Canvas Name="HexCanvas">
                         <Polygon Name="HexBackground" Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}"/>
-                        <Polygon Name="Sextant0" Stroke="{TemplateBinding Foreground}" Fill="Green"/>
-                        <Polygon Name="Sextant1" Stroke="{TemplateBinding Foreground}" Fill="Blue"/>
-                        <Polygon Name="Sextant2" Stroke="{TemplateBinding Foreground}" Fill="Orange"/>
-                        <Polygon Name="Sextant3" Stroke="{TemplateBinding Foreground}" Fill="Purple"/>
-                        <Polygon Name="Sextant4" Stroke="{TemplateBinding Foreground}" Fill="Pink"/>
-                        <Polygon Name="Sextant5" Stroke="{TemplateBinding Foreground}" Fill="Violet"/>
-                        <Polyline Name="HexFace0" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <Polyline Name="HexFace1" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <Polyline Name="HexFace2" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <Polyline Name="HexFace3" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <Polyline Name="HexFace4" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
-                        <Polyline Name="HexFace5" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Square"/>
+                        <Polygon Name="Sextant0" Stroke="{TemplateBinding Foreground}" />
+                        <Polygon Name="Sextant1" Stroke="{TemplateBinding Foreground}" />
+                        <Polygon Name="Sextant2" Stroke="{TemplateBinding Foreground}" />
+                        <Polygon Name="Sextant3" Stroke="{TemplateBinding Foreground}" />
+                        <Polygon Name="Sextant4" Stroke="{TemplateBinding Foreground}" />
+                        <Polygon Name="Sextant5" Stroke="{TemplateBinding Foreground}" />
+                        <Polyline Name="HexFace0" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
+                        <Polyline Name="HexFace1" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
+                        <Polyline Name="HexFace2" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
+                        <Polyline Name="HexFace3" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
+                        <Polyline Name="HexFace4" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
+                        <Polyline Name="HexFace5" Stroke="{TemplateBinding FaceStroke}" StrokeThickness="{TemplateBinding FaceStrokeThickness}" StrokeEndLineCap="Round"/>
                         <ContentControl Name="Sextant0Content">
                             <ContentPresenter Name="Sextant0ContentPresenter" Content="{TemplateBinding Content0}" RenderTransformOrigin="0,0"/>
                         </ContentControl>

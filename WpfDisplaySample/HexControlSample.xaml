@@ -16,7 +16,7 @@
 			HorizontalAlignment="Center" 
 			VerticalAlignment="Center" 
             FaceStrokeThickness="{Binding Value, ElementName=FaceStrokeThicknessSlider}"
-            FaceStroke="SkyBlue"
+            FaceStroke="Black"
 			Background="LavenderBlush">
             <HexControl:HexControl.Content0>
                 <Grid Background="Yellow" >

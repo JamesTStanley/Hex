@@ -239,108 +239,18 @@ namespace HexControlWpf
                 SextantContents[i].Clip = _verticies.AsSextantClipGeometry(i);
             }
 
-            // TODO: Generalize. Angle could be a fact table based on 
-            // orientation & sextant number if the calculation doesn't
-            // present itself easily.
             double translateX;
             double translateY;
             double rotateAngle;
-            Point transformOrigin;
 
             for (int i = 0; i <= 5; i++)
             {
-                if (Orientation == HexOrientation.FlatTopped)
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            translateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
-                            translateX = (_verticies[1].Item1 - _verticies[0].Item1) / 2;
-                            translateY = (_verticies[1].Item2 - _verticies[0].Item2) / 2;
-                            rotateAngle = -60d;
-                            transformOrigin = new Point(0, 0);
-                            break;
-                        case 1:
-                            translateX = 0;
-                            translateY = 0;
-                            rotateAngle = 0d;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                        case 2:
-                            translateX = (_verticies[3].Item1 - _verticies[2].Item1) / 2;
-                            translateY = (_verticies[3].Item2 - _verticies[2].Item2) / 2;
-                            rotateAngle = 60;
-                            transformOrigin = new Point(0.5, 1);
-                            break;
-                        case 3:
-                            translateX = (_verticies[3].Item1 - _verticies[4].Item1) / 2;
-                            translateY = (_verticies[4].Item2 - _verticies[3].Item2) / 2;
-                            rotateAngle = 120;
-                            transformOrigin = new Point(0.5, 1);
-                            break;
-                        case 4:
-                            translateX = 0;
-                            translateY = 0;
-                            rotateAngle = 180d;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                        case 5:
-                        default:
-                            translateX = (_verticies[5].Item1 - _verticies[0].Item1);
-                            translateY = (_verticies[0].Item2 - _verticies[5].Item2);
-                            rotateAngle = 240d;
-                            transformOrigin = new Point(0.5, 0);
-                            break;
-                    } 
-                }
-                else
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            translateX = 0;
-                            translateY = 0;
-                            rotateAngle = -30d;
-                            transformOrigin = new Point(0, 1);
-                            break;
-                        case 1:
-                            translateX = -0.13 * VertexRadius;
-                            translateY = translateX / 2;
-                            rotateAngle = 30d;
-                            transformOrigin = new Point(0.87, 1);
-                            break;
-                        case 2:
-                            translateX = 0;
-                            translateY = 0;
-                            rotateAngle = 90;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                        case 3:
-                            translateX = 0.18 * VertexRadius;
-                            translateY = translateX;
-                            rotateAngle = 150d;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                        case 4:
-                            translateX = -0.32 * VertexRadius;
-                            translateY = 0.18 * VertexRadius;
-                            rotateAngle = 210;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                        case 5:
-                        default:
-                            translateX = -0.13 * VertexRadius;
-                            translateY = 0;
-                            rotateAngle = 270;
-                            transformOrigin = new Point(0.5, 0.5);
-                            break;
-                    }
-                }
+                CalculateContentPresenterTransforms(Orientation, i, out rotateAngle, out translateX, out translateY);
 
                 var stGroup = new TransformGroup();
                 stGroup.Children.Add(new RotateTransform(rotateAngle));
                 stGroup.Children.Add(new TranslateTransform(translateX, translateY));
-                SextantContentPresenters[i].RenderTransformOrigin = transformOrigin;
+                SextantContentPresenters[i].RenderTransformOrigin = new Point(0.5, 0.5);
                 SextantContentPresenters[i].RenderTransform = stGroup;
             }
 
@@ -368,6 +278,85 @@ namespace HexControlWpf
                 _verticies.Add(new Tuple<double, double>(
                                 vertexX + HexCanvasElement.Width / 2, 
                                 vertexY + HexCanvasElement.Height / 2));
+            }
+        }
+
+        private void CalculateContentPresenterTransforms(HexOrientation orientation, int verticeIndex, out double angle, 
+            out double translateX, out double translateY)
+        {
+            if (Orientation == HexOrientation.FlatTopped)
+            {
+                switch (verticeIndex)
+                {
+                    case 0:
+                        translateX = -0.125 * VertexRadius;
+                        translateY = -0.22 * VertexRadius;
+                        angle = -60d;
+                        break;
+                    case 1:
+                        translateX = 0;
+                        translateY = 0;
+                        angle = 0d;
+                        break;
+                    case 2:
+                        translateX = 0.125 * VertexRadius;
+                        translateY = -0.22 * VertexRadius;
+                        angle = 60d;
+                        break;
+                    case 3:
+                        translateX = 0.125 * VertexRadius;
+                        translateY = 0.22 * VertexRadius;
+                        angle = 120;
+                        break;
+                    case 4:
+                        translateX = 0;
+                        translateY = 0;
+                        angle = 180d;
+                        break;
+                    case 5:
+                    default:
+                        translateX = -0.125 * VertexRadius;
+                        translateY = 0.22 * VertexRadius;
+                        angle = -120d;
+                        break;
+                } 
+            }
+            else
+            {
+                switch (verticeIndex)
+                {
+                    case 0:
+                        translateX = -0.32 * VertexRadius;
+                        translateY = -0.18 * VertexRadius;
+                        angle = -30d;
+                        break;
+                    case 1:
+                        translateX = 0.18 * VertexRadius;
+                        translateY = -0.18 * VertexRadius;
+                        angle = 30d;
+                        break;
+                    case 2:
+                        translateX = 0;
+                        translateY = 0;
+                        angle = 90;
+                        break;
+                    case 3:
+                        translateX = 0.18 * VertexRadius;
+                        translateY = 0.18 * VertexRadius;
+                        angle = 150d;
+                        break;
+                    case 4:
+                        translateX = -0.32 * VertexRadius;
+                        translateY = 0.18 * VertexRadius;
+                        angle = -150d;
+                        break;
+                    case 5:
+                    default:
+                        translateX = -0.13 * VertexRadius;
+                        translateY = 0;
+                        angle = -90;
+                        break;
+                }
             }
         }
     }

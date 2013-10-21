@@ -24,9 +24,14 @@ namespace WpfDisplaySample
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void RotateCCW_Click(object sender, RoutedEventArgs e)
         {
-            SampleHex.HexFaces[0].Visibility = System.Windows.Visibility.Collapsed;
+            SampleHex.RotateCounterClockwise();
+        }
+
+        private void RotateCW_Click(object sender, RoutedEventArgs e)
+        {
+            SampleHex.RotateClockwise();
         }
     }
 }

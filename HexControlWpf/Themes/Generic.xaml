@@ -6,7 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:HexControl}">
-                    <Canvas Name="HexCanvas">
+                    <Canvas Name="HexCanvas" RenderTransformOrigin="0.5, 0.5">
                         <Polygon Name="HexBackground" Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}"/>
                         <Polygon Name="Sextant0" Stroke="{TemplateBinding Foreground}" />
                         <Polygon Name="Sextant1" Stroke="{TemplateBinding Foreground}" />
@@ -38,6 +38,21 @@
                         <ContentControl Name="Sextant5Content">
                             <ContentPresenter Name="Sextant5ContentPresenter" Content="{TemplateBinding Content5}" RenderTransformOrigin="0,0"/>
                         </ContentControl>
+                        <Canvas.RenderTransform>
+                            <RotateTransform Angle="0"/>
+                        </Canvas.RenderTransform>
+                        <Canvas.Resources>
+                            <Storyboard x:Key="RotateHex" BeginTime="00:00:00.000" Duration="00:00:0.500">
+                                <DoubleAnimation Storyboard.TargetName="HexCanvas" 
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" 
+                                                 To="0"
+                                                 BeginTime="00:00:00.000" Duration="00:00:0.500">
+                                    <DoubleAnimation.EasingFunction>
+                                        <ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Canvas.Resources>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

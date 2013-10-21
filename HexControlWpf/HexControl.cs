@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -156,6 +157,7 @@ namespace HexControlWpf
             DependencyProperty.Register("Content5", typeof(object), typeof(HexControl),
                                         new FrameworkPropertyMetadata(null,
                                         FrameworkPropertyMetadataOptions.AffectsRender));
+
         #endregion
 
         // TODO: Not sure these need to be pulic, or even properties
@@ -206,6 +208,27 @@ namespace HexControlWpf
             base.OnApplyTemplate();
         }
 
+        // TODO: Figure out if this should be exposed as a public property (probably)
+        // and if the rotation should be handled by its assignment, inferring the
+        // rotation direction based on + or - in change?
+        private int HexRotationIndex = 0;
+
+        public void RotateClockwise()
+        {
+            HexRotationIndex = HexRotationIndex == 0 ? 5 : HexRotationIndex - 1;
+            var storyBoard = HexCanvasElement.FindResource("RotateHex") as Storyboard;
+            ((DoubleAnimation)storyBoard.Children[0]).To -= 60;
+            storyBoard.Begin();
+        }
+
+        public void RotateCounterClockwise()
+        {
+            HexRotationIndex = HexRotationIndex == 5 ? 0 : HexRotationIndex + 1;
+            var storyBoard = HexCanvasElement.FindResource("RotateHex") as Storyboard;
+            ((DoubleAnimation)storyBoard.Children[0]).To += 60;
+            storyBoard.Begin();
+        }
+
         internal void UpdateElementLayout()
         {
             if (HexBackgroundElement == null)
@@ -231,7 +254,6 @@ namespace HexControlWpf
                 Sextants[i].Points = _verticies.AsSextant(i);
 
                 var size = _verticies.AsSextantBoundingBox(i);
-                //SextantContents[i].Width = size.Width;
                 SextantContents[i].Width = VertexRadius;
                 SextantContents[i].Height = size.Height;
                 SextantContents[i].SetValue(Canvas.LeftProperty, size.Left);
